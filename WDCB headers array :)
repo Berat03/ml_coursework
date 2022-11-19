@@ -1,0 +1,6 @@
+colHead = ["ID", "B/M", "Radius","Texture",
+           "Perimeter","Area","Smoothness","Compactness","Concavity","ConcavePoints","Symmetry","FractalDimension",
+          "RadiusSE","TextureSE","PerimeterSE","AreaSE","SmoothnessSE","CompactnessSE","ConcavitySE",
+           "ConcavePointsSE","SymmetrySE","FractalDimensionSE","RadiusWorst","TextureWorst",
+           "PerimeterWorst","AreaWorst","SmoothnessWorst","CompactnessWorst","ConcavityWorst",
+           "ConcavePointsWorst","SymmetryWorst","FractalDimensionWorst"]
