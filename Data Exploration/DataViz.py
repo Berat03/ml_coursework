@@ -38,5 +38,3 @@ plt.show()
 
 sns.heatmap(cdf.corr(), cmap="flare")
 plt.show()
-
-print("Finished Running")
