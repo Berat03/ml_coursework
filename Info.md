@@ -40,3 +40,14 @@ What would you do differently if you were to do it again?
 
 ### 5.4     Self- & Peer- Assessment (0%)
 Complete the assessment form on https://forms.office.com/r/Sd46AWxcb0 after you have completed the group report (as in Section 5.2). This will be used to produce your personal mark for the group report. This should be completed individually, and the information contained within will be kept confidential. If you do not provide it, your final personal mark will be deducted by 5%.
+
+
+# Resources 
+### Similar Projects on Breast Cancer
+##### Breast Cancer Dataset
+https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29
+##### National Library of Medicine
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8612371/#:~:text=The%20present%20study%20demonstrates%20the,et%20al.24%2C28.
+##### Kaggle Dataset
+https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data
+
