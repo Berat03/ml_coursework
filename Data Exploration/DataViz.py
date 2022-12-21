@@ -15,11 +15,15 @@ colHead = ["ID", "B/M", "Radius", "Texture",
            "PerimeterWorst", "AreaWorst", "SmoothnessWorst", "CompactnessWorst", "ConcavityWorst",
            "ConcavePointsWorst", "SymmetryWorst", "FractalDimensionWorst"]
 
+# assign column names as .data file doesn't work on MacOS correctly
 df.columns = colHead
 
-df.drop('ID', inplace=True, axis=1)
+# extracted the variables that are important for data visualization
+cdf = df[["B/M", "Radius", "Texture", "Perimeter", "Area", "Smoothness", "Compactness", "Concavity", "ConcavePoints",
+          "Symmetry", "FractalDimension"]]
 
 
+# B\M dtype is object, which cannot be used for hue
 def convert(letter):
     if letter == 'B':
         return False
@@ -27,15 +31,12 @@ def convert(letter):
         return True
 
 
-df["B/M"] = df["B/M"].apply(convert)
-print(df["B/M"].dtype)
+cdf["B/M"] = cdf["B/M"].apply(convert)
 
-sns.pairplot(data=df[["Radius", "Texture",
-                      "Perimeter", "Area", "Smoothness", "Compactness", "Concavity", "ConcavePoints", "Symmetry",
-                      "FractalDimension",
-                      "RadiusSE", "TextureSE", "PerimeterSE", "AreaSE", "SmoothnessSE", "CompactnessSE", "ConcavitySE",
-                      "ConcavePointsSE", "SymmetrySE", "FractalDimensionSE"]], kind='reg', hue="B/M")
-
+sns.pairplot(data=cdf, hue="B/M")
 plt.show()
 
-print('e')
+sns.heatmap(cdf.corr(), cmap="flare")
+plt.show()
+
+print("Finished Running")
