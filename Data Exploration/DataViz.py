@@ -8,17 +8,7 @@ warnings.filterwarnings("ignore")
 ### Getting the data and format
 # implement standard error?
 
-df = pd.read_csv("./wdbc.csv", header=None)
-
-colHead = ["ID", "B/M", "Radius", "Texture",
-           "Perimeter", "Area", "Smoothness", "Compactness", "Concavity", "ConcavePoints", "Symmetry",
-           "FractalDimension",
-           "RadiusSE", "TextureSE", "PerimeterSE", "AreaSE", "SmoothnessSE", "CompactnessSE", "ConcavitySE",
-           "ConcavePointsSE", "SymmetrySE", "FractalDimensionSE", "RadiusWorst", "TextureWorst",
-           "PerimeterWorst", "AreaWorst", "SmoothnessWorst", "CompactnessWorst", "ConcavityWorst",
-           "ConcavePointsWorst", "SymmetryWorst", "FractalDimensionWorst"]
-
-df.columns = colHead
+df = pd.read_csv("./wdbc.csv")
 
 y = df["B/M"]  # M or B
 not_data = ["ID", "B/M"]
@@ -36,7 +26,6 @@ def graph_violin_plot():
     plt.xticks(rotation=90)  # roate labels on variables
     plt.show()
 
-
 def graph_pairplot():
     # all individual variables seem to be approximately normally distributed (leading diag)
     # removing B/M from data, i dont know how to get the hue for diag again.
@@ -44,19 +33,16 @@ def graph_pairplot():
     plt.show()
     plt.close()
 
-
 def graph_heatmap_corr():  # why is it rectangular?????
     f, ax = plt.subplots(figsize=(18, 18))
     sns.heatmap(x.corr(), annot=True, fmt=".1f", ax=ax)  # only 1 dp as easier to read but obv lose info
     plt.title("Feature Correlation")
     plt.show()
 
-
 def graph_diag():
     sns.countplot(data=x, x=y)
     plt.title("Diagnosis")
     plt.show()
-
 
 def calc_describe():
     B, M = y.value_counts()  # 0 or False is for having cancer
@@ -64,9 +50,8 @@ def calc_describe():
     print("Malignant:", M)
     print(x.describe())
 
-
 def graph_deep_corr():  # not too sure how to read this apart from regression line
     sns.jointplot(x=x.loc[:, 'Area'], y=x.loc[:, 'Radius'], kind="reg")
     plt.show()
 
-
+graph_violin_plot()
