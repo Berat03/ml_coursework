@@ -5,6 +5,9 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+### Getting the data and format
+# implement standard error?
+
 df = pd.read_csv("./wdbc.csv", header=None)
 
 colHead = ["ID", "B/M", "Radius", "Texture",
@@ -15,44 +18,55 @@ colHead = ["ID", "B/M", "Radius", "Texture",
            "PerimeterWorst", "AreaWorst", "SmoothnessWorst", "CompactnessWorst", "ConcavityWorst",
            "ConcavePointsWorst", "SymmetryWorst", "FractalDimensionWorst"]
 
-# assign column names as .data file doesn't work on MacOS correctly
 df.columns = colHead
 
-# extracted the input variables
-xs = df[["Radius", "Texture", "Perimeter", "Area", "Smoothness", "Compactness", "Concavity", "ConcavePoints",
-          "Symmetry", "FractalDimension"]]
-# output label, our diagnosis
-diag = df["B/M"]
+y = df["B/M"]  # M or B
+not_data = ["ID", "B/M"]
+x = df.drop(not_data, axis=1)
 
-def convert(letter):
-    if letter == 'B':
-        return False
-    else:
-        return True
+data = pd.concat([y, x], axis=1)  # basically just re-join to have a working full dataset
 
 
+def graph_violin_plot():
+    temp_y, temp_x = y, x  # so we dont alter original df
+    normal_data = (temp_x - temp_x.mean()) / (temp_x.std())  # must be stnadardized for this type of plot
+    data = pd.concat([y, normal_data.iloc[::, 20:]], axis=1)  # index 0:10, 10:20, 20: # for usual, se, worst
+    data = pd.melt(data, id_vars="B/M", var_name="features", value_name='value')
+    sns.violinplot(x="features", y="value", hue="B/M", data=data, split=True, inner="quart")
+    plt.xticks(rotation=90)  # roate labels on variables
+    plt.show()
 
-def pairplot_all():
+
+def graph_pairplot():
     # all individual variables seem to be approximately normally distributed (leading diag)
     # removing B/M from data, i dont know how to get the hue for diag again.
-    sns.pairplot(data=xs)
+    sns.pairplot(data=data.iloc[::, :10])
     plt.show()
     plt.close()
 
-def headmap_corr_all():
-    sns.heatmap(xs.corr(), cmap="flare")
-    plt.show()
-    plt.close()
 
-def simple_diagnosis():
-    sns.countplot(data=xs, x = diag)
+def graph_heatmap_corr():  # why is it rectangular?????
+    f, ax = plt.subplots(figsize=(18, 18))
+    sns.heatmap(x.corr(), annot=True, fmt=".1f", ax=ax)  # only 1 dp as easier to read but obv lose info
+    plt.title("Feature Correlation")
     plt.show()
 
-def statistics():
-    B, M = diag.value_counts()  # 0 or False is for having cancer
+
+def graph_diag():
+    sns.countplot(data=x, x=y)
+    plt.title("Diagnosis")
+    plt.show()
+
+
+def calc_describe():
+    B, M = y.value_counts()  # 0 or False is for having cancer
     print("Benign:", B)
     print("Malignant:", M)
-    print(xs.describe())
+    print(x.describe())
 
-sns.violinplot(data=xs, split=True, inner="quart")
-plt.show()
+
+def graph_deep_corr():  # not too sure how to read this apart from regression line
+    sns.jointplot(x=x.loc[:, 'Area'], y=x.loc[:, 'Radius'], kind="reg")
+    plt.show()
+
+
