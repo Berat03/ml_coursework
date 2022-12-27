@@ -5,16 +5,15 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-### Getting the data and format
 # implement standard error?
 
 df = pd.read_csv("./wdbc.csv")
 
-y = df["B/M"]  # M or B
+y = df["B/M"]
 not_data = ["ID", "B/M"]
 x = df.drop(not_data, axis=1)
 
-data = pd.concat([y, x], axis=1)  # basically just re-join to have a working full dataset
+data = pd.concat([y, x], axis=1)
 
 
 def graph_violin_plot():
@@ -26,12 +25,13 @@ def graph_violin_plot():
     plt.xticks(rotation=90)  # roate labels on variables
     plt.show()
 
+
 def graph_pairplot():
-    # all individual variables seem to be approximately normally distributed (leading diag)
     # removing B/M from data, i dont know how to get the hue for diag again.
     sns.pairplot(data=data.iloc[::, :10])
     plt.show()
     plt.close()
+
 
 def graph_heatmap_corr():  # why is it rectangular?????
     f, ax = plt.subplots(figsize=(18, 18))
@@ -39,10 +39,12 @@ def graph_heatmap_corr():  # why is it rectangular?????
     plt.title("Feature Correlation")
     plt.show()
 
+
 def graph_diag():
     sns.countplot(data=x, x=y)
     plt.title("Diagnosis")
     plt.show()
+
 
 def calc_describe():
     B, M = y.value_counts()  # 0 or False is for having cancer
@@ -50,8 +52,14 @@ def calc_describe():
     print("Malignant:", M)
     print(x.describe())
 
+
 def graph_deep_corr():  # not too sure how to read this apart from regression line
     sns.jointplot(x=x.loc[:, 'Area'], y=x.loc[:, 'Radius'], kind="reg")
     plt.show()
 
+
 graph_violin_plot()
+graph_pairplot()
+graph_heatmap_corr()
+graph_diag()
+calc_describe()
