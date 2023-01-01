@@ -1,9 +1,6 @@
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
-import warnings
-
-warnings.filterwarnings("ignore")
 
 # implement standard error?
 
